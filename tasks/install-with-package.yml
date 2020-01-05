@@ -1,7 +1,27 @@
 ---
-- name: Install Certbot.
-  package: "name={{ certbot_package }} state=present"
+- name: Check install repos
+  include_role:
+    name: ansible-role-epel
+  when: ansible_os_family == "RedHat"
 
-- name: Set Certbot script variable.
+- name: Check Certbot package is installed (Debian)
+  apt:
+    name: "{{ certbot_package_debian }}"
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Check Certbot package is installed (RedHat)
+  yum:
+    name:
+      - certbot
+      - python2-certbot
+      - python2-certbot-apache
+      - python2-certbot-nginx
+    state: latest
+  when: ansible_os_family == "RedHat"
+
+- name: Set Certbot script variable
   set_fact:
-    certbot_script: "{{ certbot_package }}"
+    certbot_script: "{% if ansible_os_family == 'RedHat' %} {{ certbot_script_redhat }} {% elif ansible_os_family == 'Debian' %} {{ certbot_script_debian }} {% else %} certbot {% endif %}"
+...

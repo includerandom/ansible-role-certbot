@@ -1,2 +1,5 @@
 ---
-certbot_package: letsencrypt
+certbot_script_debian: letsencrypt
+certbot_package_debian:
+  - letsencrypt
+...

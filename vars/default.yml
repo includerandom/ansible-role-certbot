@@ -1,2 +1,6 @@
 ---
-certbot_package: certbot
+certbot_script_debian: certbot
+certbot_package_debian:
+  - certbot
+certbot_script_redhat: certbot
+...

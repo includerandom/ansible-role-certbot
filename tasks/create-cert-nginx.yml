@@ -1,0 +1,16 @@
+---
+- name: Check if certificate already exists
+  stat:
+    path: /etc/letsencrypt/live/{{ cert_item.domains | first | replace('*.', '') }}/cert.pem
+  register: letsencrypt_cert
+
+- name: Debug cert exists
+  debug:
+    var:
+      - cert_item.domains
+
+- name: Generate new certificate if one doesn't exist
+  shell: "{{ certbot_create_command_nginx }}"
+  when: not letsencrypt_cert.stat.exists
+...
+

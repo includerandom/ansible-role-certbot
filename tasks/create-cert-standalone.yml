@@ -12,7 +12,7 @@
   with_items: "{{ certbot_create_standalone_stop_services }}"
 
 - name: Generate new certificate if one doesn't exist.
-  command: "{{ certbot_create_command }}"
+  shell: "{{ certbot_create_command_standalone }}"
   when: not letsencrypt_cert.stat.exists
 
 - name: Start services after cert has been generated.

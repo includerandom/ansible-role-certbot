@@ -1,0 +1,22 @@
+---
+certbot_auto_renew_user: "root"
+certbot_auto_renew_hour: '12'
+certbot_auto_renew_minute: '15'
+certbot_auto_renew_options: "--quiet --no-self-upgrade --agree-tos"
+
+certbot_create_command_standalone: >-
+  {{ certbot_script }} certonly --standalone --noninteractive --agree-tos --rsa-key-size {{ certbot_cert_rsa_key_size }}
+  --email {{ cert_item.email | default(certbot_admin_email) }}
+  -d {{ cert_item.domains | join(',') }}
+
+certbot_create_command_nginx: >-
+  {{ certbot_script }} certonly --nginx --noninteractive --agree-tos --rsa-key-size {{ certbot_cert_rsa_key_size }}
+  --email {{ cert_item.email | default(certbot_admin_email) }}
+  -d {{ cert_item.domains | join(',') }}
+
+certbot_repo: https://github.com/certbot/certbot.git
+certbot_version: master
+certbot_keep_updated: true
+
+certbot_dir: /opt/certbot
+...

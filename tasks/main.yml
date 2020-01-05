@@ -15,5 +15,34 @@
   loop_control:
     loop_var: cert_item
 
+- name: Check and install NGINX without cleaning and applying configs
+  include_role:
+    name: ansible-role-nginx
+  vars:
+    nginx_cleanup_config: false
+    nginx_main_template_enable: false
+    nginx_http_template_enable: false
+    nginx_rest_api_enable: false
+    nginx_stream_template_enable: false
+    nginx_main_upload_enable: false
+    nginx_http_upload_enable: false
+    nginx_stream_upload_enable: false
+    nginx_html_upload_enable: false
+    nginx_ssl_upload_enable: false
+    nginx_html_demo_template_enable: false
+  when:
+    - certbot_create_if_missing
+    - certbot_create_method == 'nginx'
+
+- include_tasks: create-cert-nginx.yml
+  with_items: "{{ certbot_certs }}"
+  when:
+    - certbot_create_if_missing
+    - certbot_create_method == 'nginx'
+  loop_control:
+    loop_var: cert_item
+
 - import_tasks: renew-cron.yml
   when: certbot_auto_renew
+...
+
