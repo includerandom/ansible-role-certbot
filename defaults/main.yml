@@ -27,4 +27,4 @@ certbot_create_standalone_stop_services: []
 # To install from source (on older OSes or if you need a specific or newer
 # version of Certbot), set this variable to `yes` and configure other options
 certbot_install_from_source: false
-...
+#certbot_advanced_params: "--deploy-hook /usr/local/bin/renew-pve-certs.sh"
